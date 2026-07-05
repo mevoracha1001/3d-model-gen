@@ -1,0 +1,49 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js / vinext
+/.next/
+/.vinext/
+/out/
+
+# build output
+/dist/
+/outputs/
+/work/
+
+# deployment runtimes
+/.wrangler/
+/.sites-runtime/
+
+# platform deployment config (project-specific IDs)
+/.openai/
+
+# env files
+.env*
+!.env.example
+
+# misc
+.DS_Store
+*.pem
+next-env.d.ts
+
+# generated
+drizzle/meta/
+package-lock.json
+yarn.lock
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
