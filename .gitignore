@@ -32,6 +32,9 @@
 .env*
 !.env.example
 
+# design specs / superpowers
+/docs/superpowers/
+
 # misc
 .DS_Store
 *.pem

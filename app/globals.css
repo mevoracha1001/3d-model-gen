@@ -71,3 +71,124 @@ button:disabled {
     opacity: 1;
   }
 }
+
+/* ── Liquid Glass ─────────────────────────────────────────────────────────────
+   Apple-accurate approach:
+   1. backdrop-filter IS the content refraction — actual background pixels blur
+      through the glass surface. No fake patterns.
+   2. Top-edge specular via background-image gradient — clips to border-radius
+      naturally, so NO overflow:hidden needed (which would break layout).
+   3. Inner shadows give glass depth. Thin border.
+   4. Variants only override background-color (sits under the specular image).
+   5. No JS, no SVG, no pseudo-elements, no mouse tracking.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+.lg-surface {
+  /* No position: relative — would override Tailwind's fixed/sticky via cascade */
+  backdrop-filter: blur(24px) saturate(180%) brightness(1.02);
+  -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18),
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    0 1px 4px rgba(0, 0, 0, 0.12);
+  background-image: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.04) 1px,
+    transparent 20%
+  );
+  /* Opacity-only animation — no transform, avoids stacking context side effects */
+  animation: lgMount 200ms ease both;
+}
+
+/* ── Variant background fills ──────────────────────────────── */
+
+/* Panels: sidebar, composer, settings — moderately transparent dark */
+.lg-panel  { background-color: rgba(10, 14, 22, 0.58); }
+
+/* Chat bubbles: slightly more opaque for readability */
+.lg-bubble { background-color: rgba(10, 14, 22, 0.62); }
+
+/* User bubble: green tint */
+.lg-tint-green { background-color: rgba(6, 18, 12, 0.62); }
+
+/* Model card: darkest, needs overflow:hidden to clip WebGL canvas */
+.lg-card {
+  background-color: rgba(4, 7, 13, 0.68);
+  overflow: hidden;
+}
+
+/* Pills: light fill + stronger top specular (small surface = bigger spec) */
+.lg-pill {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.26) 0%,
+      rgba(255, 255, 255, 0.09) 1px,
+      rgba(255, 255, 255, 0.02) 6px,
+      transparent 30%
+    ),
+    rgba(255, 255, 255, 0.07);
+}
+
+/* Chips: same as pill */
+.lg-chip {
+  display: inline-flex;
+  align-items: center;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.26) 0%,
+      rgba(255, 255, 255, 0.09) 1px,
+      rgba(255, 255, 255, 0.02) 6px,
+      transparent 30%
+    ),
+    rgba(255, 255, 255, 0.07);
+}
+
+/* ── Interactive states ────────────────────────────────────── */
+
+/* Hover: slightly more fill, border brightens */
+.lg-pill:not(:disabled):hover,
+.lg-chip:not(:disabled):hover {
+  background-color: rgba(255, 255, 255, 0.11);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Press: override the global button:active transform */
+.lg-pill:not(:disabled):active,
+.lg-chip:not(:disabled):active {
+  transform: scale(0.95) !important;
+  filter: brightness(0.9) !important;
+}
+
+/* ── Mount animation ───────────────────────────────────────── */
+
+@keyframes lgMount {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes dotBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.38; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* ── Accessibility ─────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .lg-surface { animation: none; }
+}
+
+/* ── Fallback: no backdrop-filter support ──────────────────── */
+
+@supports not (backdrop-filter: blur(1px)) {
+  .lg-panel  { background-color: rgba(10, 14, 22, 0.95); }
+  .lg-bubble { background-color: rgba(10, 14, 22, 0.95); }
+  .lg-tint-green { background-color: rgba(6, 18, 12, 0.95); }
+  .lg-card   { background-color: rgba(4, 7, 13, 0.97); }
+  .lg-pill,
+  .lg-chip   { background-color: rgba(255, 255, 255, 0.14); }
+}

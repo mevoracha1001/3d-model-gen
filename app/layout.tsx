@@ -14,7 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Spec2Mesh",
-  description: "Open-source AI studio for turning specs, photos, and dimensions into printable 3D models.",
+  description:
+    "Open-source AI studio for turning specs, photos, and dimensions into printable 3D models.",
   other: {
     "codex-preview": "development",
   },
@@ -31,9 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
       </body>
     </html>

@@ -4,11 +4,13 @@
 
 import { ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LiquidGlass } from "./liquid-glass";
 import {
   faBarsStaggered,
   faBoxArchive,
   faCheck,
   faCircleXmark,
+  faPaperclip,
   faPenToSquare,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
@@ -348,9 +350,11 @@ export function ModelGenerator({ displayName }: ModelGeneratorProps) {
       <div className="relative z-10 min-h-screen">
         <header className="pointer-events-none fixed left-0 right-0 top-0 z-30 flex items-center justify-between px-5 py-4">
           <div className="flex items-center gap-2">
-            <button
+            <LiquidGlass
+              as="button"
+              variant="pill"
               aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
-              className="pointer-events-auto relative grid h-9 w-9 place-items-center rounded-full border border-white/12 bg-white/8 text-white/70 shadow-2xl backdrop-blur-xl transition hover:bg-white/14 hover:text-white active:scale-95"
+              className="pointer-events-auto relative grid h-9 w-9 place-items-center rounded-full text-white/70 shadow-2xl transition hover:text-white"
               onClick={() => setSidebarOpen((value) => !value)}
               type="button"
             >
@@ -366,18 +370,23 @@ export function ModelGenerator({ displayName }: ModelGeneratorProps) {
                 }`}
                 icon={faXmark}
               />
-            </button>
-            <div className="pointer-events-auto rounded-full border border-white/12 bg-white/8 px-3 py-1.5 text-sm font-semibold tracking-tight text-white/70 shadow-2xl backdrop-blur-xl">
+            </LiquidGlass>
+            <LiquidGlass
+              variant="pill"
+              className="pointer-events-auto rounded-full px-3 py-1.5 text-sm font-semibold tracking-tight text-white/70 shadow-2xl"
+            >
               {appName}
-            </div>
+            </LiquidGlass>
           </div>
-          <button
-            className="pointer-events-auto rounded-full border border-white/12 bg-white/8 px-3 py-1.5 text-sm text-white/70 shadow-2xl backdrop-blur-xl transition hover:bg-white/14"
+          <LiquidGlass
+            as="button"
+            variant="pill"
+            className="pointer-events-auto rounded-full px-3 py-1.5 text-sm text-white/70 shadow-2xl transition"
             onClick={() => setShowSettings((value) => !value)}
             type="button"
           >
             Settings
-          </button>
+          </LiquidGlass>
         </header>
         <div className="pointer-events-none fixed inset-x-0 top-0 z-20 h-32 bg-gradient-to-b from-[#05070d]/80 via-[#05070d]/35 to-transparent backdrop-blur-[2px] [mask-image:linear-gradient(to_bottom,black,transparent)]" />
         <div className="pointer-events-none fixed inset-x-0 bottom-0 z-20 h-40 bg-gradient-to-t from-[#05070d]/90 via-[#05070d]/45 to-transparent backdrop-blur-[2px] [mask-image:linear-gradient(to_top,black,transparent)]" />
@@ -433,15 +442,17 @@ export function ModelGenerator({ displayName }: ModelGeneratorProps) {
           )}
 
         {hasChat && (
-          <button
-            className={`fixed bottom-32 left-1/2 z-30 -translate-x-1/2 rounded-full border border-[#7dfcc1]/20 bg-[#07100d]/72 px-4 py-2 text-sm text-[#dfffee] shadow-2xl backdrop-blur-2xl transition ${
-              isAtBottom ? "pointer-events-none translate-y-3 opacity-0" : "opacity-100 hover:bg-white/18"
+          <LiquidGlass
+            as="button"
+            variant="chip"
+            className={`fixed bottom-32 left-1/2 z-30 -translate-x-1/2 rounded-full px-4 py-2 text-sm text-[#dfffee] shadow-2xl transition ${
+              isAtBottom ? "pointer-events-none translate-y-3 opacity-0" : "opacity-100"
             }`}
             onClick={() => scrollToLatest("smooth")}
             type="button"
           >
             Latest
-          </button>
+          </LiquidGlass>
         )}
 
         {hasChat && (
@@ -473,14 +484,16 @@ export function ModelGenerator({ displayName }: ModelGeneratorProps) {
           {!hasChat && (
             <div className="mx-auto mb-3 flex max-w-3xl flex-wrap justify-center gap-2">
               {quickPrompts.map((quick) => (
-                <button
-                  className="rounded-full border border-white/12 bg-white/8 px-3 py-2 text-sm text-white/68 backdrop-blur-xl transition hover:bg-white/14"
+                <LiquidGlass
+                  as="button"
+                  variant="chip"
+                  className="rounded-full px-3 py-2 text-sm text-white/68 transition"
                   key={quick}
                   onClick={() => setPrompt(quick)}
                   type="button"
                 >
                   {quick}
-                </button>
+                </LiquidGlass>
               ))}
             </div>
           )}
@@ -537,8 +550,10 @@ function SessionSidebar({
   };
 
   return (
-    <aside
-      className={`fixed bottom-5 left-5 top-20 z-30 w-[292px] rounded-[28px] border border-white/10 bg-[#0b0f17]/88 p-2 shadow-[0_24px_90px_rgba(0,0,0,0.45)] backdrop-blur-2xl transition duration-300 ${
+    <LiquidGlass
+      as="aside"
+      variant="panel"
+      className={`fixed bottom-5 left-5 top-20 z-30 w-[292px] rounded-[28px] p-2 shadow-[0_24px_90px_rgba(0,0,0,0.45)] transition duration-300 ${
         isOpen ? "translate-x-0 opacity-100" : "-translate-x-[calc(100%+2rem)] opacity-0"
       }`}
     >
@@ -547,13 +562,15 @@ function SessionSidebar({
           <h2 className="text-sm font-medium text-white/86">Chats</h2>
           <p className="text-[11px] text-white/36">Saved model threads</p>
         </div>
-        <button
-          className="rounded-full border border-white/10 bg-white/8 px-3 py-1.5 text-xs font-medium text-white/78 transition hover:bg-white/12"
+        <LiquidGlass
+          as="button"
+          variant="chip"
+          className="rounded-full px-3 py-1.5 text-xs font-medium text-white/78 transition"
           onClick={newSession}
           type="button"
         >
           New
-        </button>
+        </LiquidGlass>
       </div>
       <div className="max-h-[calc(100vh-150px)] space-y-0.5 overflow-y-auto pr-1">
         {sortedSessions.map((session) => (
@@ -646,7 +663,7 @@ function SessionSidebar({
           </div>
         ))}
       </div>
-    </aside>
+    </LiquidGlass>
   );
 }
 
@@ -718,8 +735,10 @@ function Composer({
   setProfile: React.Dispatch<React.SetStateAction<ManufacturingProfile>>;
 }) {
   return (
-    <form
-      className="fixed bottom-4 left-1/2 z-30 w-[calc(100%-2rem)] max-w-3xl -translate-x-1/2 rounded-[30px] border border-white/12 bg-[#0b1118]/78 p-2 shadow-[0_24px_90px_rgba(0,0,0,0.48)] backdrop-blur-2xl"
+    <LiquidGlass
+      as="form"
+      variant="panel"
+      className="fixed bottom-4 left-1/2 z-30 w-[calc(100%-2rem)] max-w-3xl -translate-x-1/2 rounded-[30px] p-2 shadow-[0_24px_90px_rgba(0,0,0,0.48)]"
       onSubmit={onSubmit}
     >
       {references.length > 0 && (
@@ -753,8 +772,13 @@ function Composer({
       />
       <div className="flex flex-wrap items-center justify-between gap-2 border-t border-white/10 px-2 pb-1 pt-2">
         <div className="flex flex-wrap items-center gap-2">
-          <label className="cursor-pointer rounded-full border border-white/14 bg-white/8 px-3 py-2 text-sm text-white/72 transition hover:bg-white/14">
-            {isUploading ? "Reading" : "Attach"}
+          <LiquidGlass
+            as="label"
+            variant="chip"
+            className="h-8 cursor-pointer rounded-full px-3 text-sm text-white/72 transition"
+          >
+            <FontAwesomeIcon className="mr-1.5 h-3 w-3 opacity-70" icon={faPaperclip} />
+            {isUploading ? "Reading…" : "Attach"}
             <input
               accept="image/png,image/jpeg,image/webp"
               className="sr-only"
@@ -763,13 +787,18 @@ function Composer({
               onChange={attachReferences}
               type="file"
             />
-          </label>
-          <button
-            className={`rounded-full border px-3 py-2 text-sm transition ${
-              profile.autoFillSpecifics
-                ? "border-[#7dfcc1]/28 bg-[#123329]/72 text-[#dfffee]"
-                : "border-white/12 bg-white/6 text-white/62"
+          </LiquidGlass>
+          <LiquidGlass
+            as="button"
+            variant="chip"
+            className={`h-8 rounded-full px-3 text-sm transition ${
+              profile.autoFillSpecifics ? "text-[#7dfcc1]" : "text-white/55"
             }`}
+            style={
+              profile.autoFillSpecifics
+                ? { borderColor: "rgba(125,252,193,0.28)" }
+                : undefined
+            }
             onClick={() =>
               setProfile((current) => ({
                 ...current,
@@ -778,8 +807,8 @@ function Composer({
             }
             type="button"
           >
-            Auto-fill specifics
-          </button>
+            Guess specifics
+          </LiquidGlass>
         </div>
         <button
           className="rounded-full bg-[#bdfadd] px-5 py-2.5 text-sm font-semibold text-[#07100d] shadow-[0_0_30px_rgba(125,252,193,0.28)] transition duration-150 hover:bg-[#d9ffe9] hover:shadow-[0_0_38px_rgba(125,252,193,0.36)] active:scale-95 disabled:cursor-not-allowed disabled:opacity-45"
@@ -789,7 +818,7 @@ function Composer({
           {isThinking ? "Working" : "Generate"}
         </button>
       </div>
-    </form>
+    </LiquidGlass>
   );
 }
 
@@ -806,20 +835,23 @@ function ChatMessage({
 
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
-      <div
-        className={`max-w-[86%] rounded-[28px] px-4 py-3 shadow-2xl backdrop-blur-2xl ${
-          isUser
-            ? "border border-[#7dfcc1]/22 bg-[#143428]/88 text-[#e9fff5]"
-            : "border border-white/12 bg-[#0b1118]/74 text-white"
+      <LiquidGlass
+        variant="bubble"
+        tint={isUser ? "green" : undefined}
+        className={`max-w-[86%] rounded-[28px] px-4 py-3 shadow-2xl ${
+          isUser ? "text-[#e9fff5]" : "text-white"
         }`}
       >
         <p className="whitespace-pre-wrap text-sm leading-6">{message.content}</p>
         {message.model && (
-          <div className="mt-4 overflow-hidden rounded-[24px] border border-white/12 bg-black/38">
+          <LiquidGlass
+            variant="card"
+            className="mt-4 overflow-hidden rounded-[24px]"
+          >
             <div className="h-[420px]">
               <ModelPreview model={message.model} />
             </div>
-            <div className="flex flex-col gap-3 border-t border-white/10 bg-[#080d13]/72 p-3 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-col gap-3 border-t border-white/10 bg-[#080d13]/60 p-3 md:flex-row md:items-center md:justify-between">
               <ModelSummary model={message.model} />
               <button
                 className="shrink-0 rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#07100d] transition duration-150 hover:bg-[#e9fff5] active:scale-95 disabled:opacity-45"
@@ -830,9 +862,9 @@ function ChatMessage({
                 {isDownloading ? "Exporting" : "Download STL"}
               </button>
             </div>
-          </div>
+          </LiquidGlass>
         )}
-      </div>
+      </LiquidGlass>
     </div>
   );
 }
@@ -840,10 +872,21 @@ function ChatMessage({
 function SwarmCard({ stage }: { stage: string }) {
   return (
     <div className="flex justify-start">
-      <div className="rounded-[28px] border border-white/12 bg-[#0b1118]/74 px-4 py-3 text-sm text-white/72 shadow-2xl backdrop-blur-2xl">
-        <span className="mr-2 inline-block h-2 w-2 animate-ping rounded-full bg-[#7dfcc1]" />
+      <LiquidGlass
+        variant="bubble"
+        className="rounded-[28px] px-4 py-3 text-sm text-white/72 shadow-2xl"
+      >
+        <span className="mr-3 inline-flex items-center gap-[5px]">
+          {[0, 180, 360].map((delay) => (
+            <span
+              key={delay}
+              className="h-[6px] w-[6px] rounded-full bg-[#7dfcc1]"
+              style={{ animation: `dotBounce 1.05s ease-in-out ${delay}ms infinite` }}
+            />
+          ))}
+        </span>
         {stage}
-      </div>
+      </LiquidGlass>
     </div>
   );
 }
@@ -867,7 +910,11 @@ function SettingsPanel({
         onClick={onClose}
         type="button"
       />
-      <aside className="absolute bottom-4 right-4 top-4 w-[min(420px,calc(100vw-2rem))] animate-[settingsSlideIn_240ms_cubic-bezier(0.22,1,0.36,1)] rounded-[30px] border border-white/12 bg-[#0b1118]/86 p-4 shadow-[0_26px_100px_rgba(0,0,0,0.58)] backdrop-blur-2xl">
+      <LiquidGlass
+        as="aside"
+        variant="panel"
+        className="absolute bottom-4 right-4 top-4 w-[min(420px,calc(100vw-2rem))] animate-[settingsSlideIn_240ms_cubic-bezier(0.22,1,0.36,1)] rounded-[30px] p-4 shadow-[0_26px_100px_rgba(0,0,0,0.58)]"
+      >
         <div className="mb-4 flex items-start justify-between gap-4">
           <div>
             <h2 className="text-lg font-semibold tracking-tight text-white/92">Settings</h2>
@@ -917,7 +964,7 @@ function SettingsPanel({
           <Field label="Material" value={profile.material} onChange={(material) => setProfile((current) => ({ ...current, material }))} />
           <Field label="Art direction" value={profile.artisticIntent} onChange={(artisticIntent) => setProfile((current) => ({ ...current, artisticIntent }))} />
         </div>
-      </aside>
+      </LiquidGlass>
     </div>
   );
 }
